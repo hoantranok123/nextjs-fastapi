@@ -11,14 +11,9 @@ app = FastAPI(docs_url="/api/docs", openapi_url="/api/openapi.json")
 def healthchecker():
   return {"status": "success", "message": "Integrate FastAPI Framework with Next.js"}
 
-# Route to get all todo items
-@app.get("/api/todos")
-def get_all_todo_items():
-  return todos
-
 origins = [
   "https://nextjs-fastapi-fawn.vercel.app",
-  "http://localhost:8080"
+  "http://localhost:8000"
 ]
 
 app.add_middleware(
@@ -54,7 +49,10 @@ def create_todo_item(todo: TodoCreate):
   todos.append(new_todo)
   return new_todo
 
-
+# Route to get all todo items
+@app.get("/api/todos")
+def get_all_todo_items():
+  return todos
 
 # Route to get a specific todo item by ID
 @app.get("/api/todos/{todo_id}")
