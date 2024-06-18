@@ -1,18 +1,20 @@
 from typing import Union
 
-from fastapi import FastAPI, Request, Response
+from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 
-from starlette.background import BackgroundTask
-import logging
-import sys
 app = FastAPI(docs_url="/api/docs", openapi_url="/api/openapi.json")
 
 
 @app.get("/api/healthchecker")
 def healthchecker():
   return {"status": "success", "message": "Integrate FastAPI Framework with Next.js"}
+
+# Route to get all todo items
+@app.get("/api/todos")
+def get_all_todo_items():
+  return todos
 
 origins = [
   "https://nextjs-fastapi-fawn.vercel.app",
@@ -26,26 +28,6 @@ app.add_middleware(
   allow_methods=["*"],
   allow_headers=["*"],
 )
-
-logging.basicConfig(stream=sys.stdout, level=logging.DEBUG)
-
-def log_info(req_body, res_body):
-  logging.info(req_body)
-  logging.info(res_body)
-
-
-@app.middleware('http')
-async def some_middleware(request: Request, call_next):
-  req_body = await request.body()
-  response = await call_next(request)
-  
-  res_body = b''
-  async for chunk in response.body_iterator:
-    res_body += chunk
-  
-  task = BackgroundTask(log_info, req_body, res_body)
-  return Response(content=res_body, status_code=response.status_code, 
-    headers=dict(response.headers), media_type=response.media_type, background=task)
 
 
 class TodoCreate(BaseModel):
@@ -72,10 +54,7 @@ def create_todo_item(todo: TodoCreate):
   todos.append(new_todo)
   return new_todo
 
-# Route to get all todo items
-@app.get("/api/todos")
-def get_all_todo_items():
-  return todos
+
 
 # Route to get a specific todo item by ID
 @app.get("/api/todos/{todo_id}")
