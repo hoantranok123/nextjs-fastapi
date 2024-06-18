@@ -13,7 +13,7 @@ def healthchecker():
 
 origins = [
   "https://nextjs-fastapi-fawn.vercel.app",
-  "http://localhost:8000"
+  "http://localhost:3000"
 ]
 
 app.add_middleware(
