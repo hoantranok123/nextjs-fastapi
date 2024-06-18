@@ -11,10 +11,14 @@ app = FastAPI(docs_url="/api/docs", openapi_url="/api/openapi.json")
 def healthchecker():
   return {"status": "success", "message": "Integrate FastAPI Framework with Next.js"}
 
+origins = [
+  "https://nextjs-fastapi-fawn.vercel.app/",
+  "http://localhost:8080"
+]
 
 app.add_middleware(
   CORSMiddleware,
-  allow_origins=["*"],
+  allow_origins=origins,
   allow_credentials=True,
   allow_methods=["*"],
   allow_headers=["*"],
