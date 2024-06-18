@@ -12,7 +12,7 @@ const Home: React.FC = () => {
   useEffect(() => {
     fetchTodos();
   }, []);
-
+  console.log(todos)
   return (
     <div className="container mx-auto max-w-md p-4">
       <TodoForm />
