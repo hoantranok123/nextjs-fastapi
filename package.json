@@ -8,7 +8,8 @@
     "lint": "next lint",
     "fastapi-dev": "pip install -r requirements.txt && py -m uvicorn api.index:app --reload",
     "next-dev": "next dev",
-    "dev": "concurrently \"pnpm run next-dev\" \"pnpm run fastapi-dev\""
+    "next-start": "next build && next start",
+    "dev": "concurrently \"pnpm run next-start\" \"pnpm run fastapi-dev\""
   },
   "dependencies": {
     "concurrently": "^8.2.2",
